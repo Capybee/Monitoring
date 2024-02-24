@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--Базовые цвета-->
+    <SolidColorBrush x:Key="Background" Color="#d7eef4"/>
+    <SolidColorBrush x:Key="InputsBackground" Color="#dbdbe3"/>
+    <SolidColorBrush x:Key="AddBackground" Color="#87cdde"/>
+    <SolidColorBrush x:Key="BtnBackground" Color="#80b3ff"/>
+    
+    <!--Цвета при наведении-->
+    <SolidColorBrush x:Key="SelectInputsBackground" Color="#ffffff"/>
+    <SolidColorBrush x:Key="SelectBtnBackground" Color="#3687ff"/>
+    
+    <!--Цвета при нажатии-->
+    <SolidColorBrush x:Key="PressedBtnBackground" Color="#0066ff"/>
+</ResourceDictionary>
