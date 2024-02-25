@@ -53,6 +53,13 @@ namespace Monitoring.Models
             set { _WhoChangedIt = value; OnPropertyChanged(nameof(WhoChangedIt)); }
         }
 
+        private DateTime _Date;
+        public DateTime Date
+        {
+            get { return _Date; }
+            set { _Date = value; OnPropertyChanged(nameof(Date)); }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

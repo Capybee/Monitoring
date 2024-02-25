@@ -112,6 +112,7 @@ namespace Monitoring.Models
                             Result.Result = Reader.GetBoolean(3);
                             Result.WhoContributed = Reader.GetInt32(4);
                             Result.WhoChangedIt = Reader.GetInt32(5);
+                            Result.Date = Reader.GetDateTime(6);
 
                             ResultCollection.Add(Result);
                         }
@@ -123,14 +124,15 @@ namespace Monitoring.Models
             }
         }
 
-        public static bool AddUser( string Surname, string Name, string MidleName,string Login, string Password, bool IsAdmin = false)
+        public static bool AddUser(int Id, string Surname, string Name, string MidleName,string Login, string Password, bool IsAdmin = false)
         {
             using(SqlConnection Connection = new SqlConnection(ConnectionString))
             { 
                 Connection.Open();
 
-                string Request = "INSERT INTO FROM Users ( surname, name, midle_name, login, password, is_admin) VALUES (@surname, @name, @midle_name, @login, @password, @is_admin)";
+                string Request = "INSERT INTO Users (id, surname, name, midle_name, login, password, is_admin) VALUES (@id,@surname, @name, @midle_name, @login, @password, @is_admin)";
 
+                SqlParameter IdParam = new SqlParameter("@id", Id);
                 SqlParameter SurnameParam = new SqlParameter("@surname", Surname);
                 SqlParameter NameParam = new SqlParameter("@name", Name);
                 SqlParameter MidleNameParam = new SqlParameter("@midle_name", MidleName);
@@ -140,6 +142,7 @@ namespace Monitoring.Models
 
                 SqlCommand Command = new SqlCommand(Request, Connection);
 
+                Command.Parameters.Add(IdParam);
                 Command.Parameters.Add(SurnameParam);
                 Command.Parameters.Add(NameParam);
                 Command.Parameters.Add(MidleNameParam);
@@ -159,7 +162,7 @@ namespace Monitoring.Models
             {
                 Connection.Open();
 
-                string Request = "INSERT INTO FROM Reports (title, content, who_request_it) VALUES (@title, @content, @who_request_it)";
+                string Request = "INSERT INTO Reports (title, content, who_request_it) VALUES (@title, @content, @who_request_it)";
 
                 SqlParameter TitleParam = new SqlParameter("@title", Title);
                 SqlParameter ContentParam = new SqlParameter("@content", Content);
@@ -177,27 +180,33 @@ namespace Monitoring.Models
             }
         }
 
-        public static bool AddResult(string Title, string Description, bool Result, int WhoContributed, int WhoChangedIt)
+        public static bool AddResult( int Id,string Title, string Description, bool Result, int WhoContributed, int WhoChangedIt, DateTime Date)
         {
             using(SqlConnection Connection = new SqlConnection(ConnectionString))
             {
                 Connection.Open();
 
-                string Request = "INSERT INTO FROM Results (title, description, result, who_contributed, who_changed_it) VALUES (@title, @description, @result, @who_contributed, @who_changed_it)";
+                Date = DateTime.Now;
 
+                string Request = "INSERT INTO Results (id,title, description, result, who_contributed, who_changed_it, result_date) VALUES (@id,@title, @description, @result, @who_contributed, @who_changed_it, @result_date)";
+
+                SqlParameter IdParam = new SqlParameter("@id", Id);
                 SqlParameter TitleParam = new SqlParameter("@title", Title);
                 SqlParameter DescParam = new SqlParameter("@description", Description);
                 SqlParameter ResParam = new SqlParameter("@result", Result);
                 SqlParameter WhoParam = new SqlParameter("@who_contributed", WhoContributed);
                 SqlParameter ChangeParam = new SqlParameter("@who_changed_it", WhoChangedIt);
+                SqlParameter DateParam = new SqlParameter("@result_date", Date);
 
                 SqlCommand Command = new SqlCommand(Request, Connection);
 
+                Command.Parameters.Add(IdParam);
                 Command.Parameters.Add(TitleParam);
                 Command.Parameters.Add(DescParam);
                 Command.Parameters.Add(WhoParam);
                 Command.Parameters.Add(ResParam);
                 Command.Parameters.Add(ChangeParam);
+                Command.Parameters.Add(DateParam);
 
                 Command.ExecuteNonQuery();
 
@@ -297,18 +306,17 @@ namespace Monitoring.Models
             }
         }
 
-        public static bool UpdateResult(int Id,string Title, string Description, bool Result, int WhoContributed, int WhoChangedIt)
+        public static bool UpdateResult(int Id,string Title, string Description, bool Result, int WhoChangedIt)
         {
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
             {
                 Connection.Open();
 
-                string Request = "UPDATE Results SET title=@title, description=@description, result=@result, who_contributed=@who_contributed, who_changed_it=@who_changed_it WHERE id=@id";
+                string Request = "UPDATE Results SET title=@title, description=@description, result=@result, who_changed_it=@who_changed_it WHERE id=@id";
 
                 SqlParameter TitleParam = new SqlParameter("@title", Title);
                 SqlParameter DescParam = new SqlParameter("@description", Description);
                 SqlParameter ResParam = new SqlParameter("@result", Result);
-                SqlParameter WhoParam = new SqlParameter("@who_contributed", WhoContributed);
                 SqlParameter ChangeParam = new SqlParameter("@who_changed_it", WhoChangedIt);
                 SqlParameter IdParam = new SqlParameter("@id", Id);
 
@@ -316,7 +324,6 @@ namespace Monitoring.Models
 
                 Command.Parameters.Add(TitleParam);
                 Command.Parameters.Add(DescParam);
-                Command.Parameters.Add(WhoParam);
                 Command.Parameters.Add(ResParam);
                 Command.Parameters.Add(ChangeParam);
                 Command.Parameters.Add(IdParam);

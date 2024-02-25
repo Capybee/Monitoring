@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -57,6 +58,11 @@ namespace Monitoring.ViewModels
                                 adminMainWindow.Show();
                                 Window ThisWindow = obj as Window;
                                 ThisWindow.Close();
+
+                                using(StreamWriter Writer = new StreamWriter("user.txt"))
+                                {
+                                    Writer.WriteLine(User.Id);
+                                }
                             }
                             else
                             {
@@ -64,6 +70,10 @@ namespace Monitoring.ViewModels
                                 mainWindow.Show();
                                 Window ThisWindow = obj as Window;
                                 ThisWindow.Close();
+                                using (StreamWriter Writer = new StreamWriter("user.txt"))
+                                {
+                                    Writer.WriteLine(User.Id);
+                                }
                             }
                         }
                     }

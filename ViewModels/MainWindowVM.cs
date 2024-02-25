@@ -1,4 +1,5 @@
 ﻿using Monitoring.Models;
+using Monitoring.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,18 @@ namespace Monitoring.ViewModels
     public class MainWindowVM : INotifyPropertyChanged
     {
 
+
+        private RelayCommand _Back;
+        public RelayCommand Back
+        {
+            get => _Back ?? (_Back = new RelayCommand(obj =>
+            {
+                Window ThisWindow = obj as Window;
+                AuthorizationWindow InstanceAuthorizationWindow = new AuthorizationWindow();
+                InstanceAuthorizationWindow.Show();
+                ThisWindow.Close();
+            }));
+        }
 
         private RelayCommand _Close;
         public RelayCommand Close
