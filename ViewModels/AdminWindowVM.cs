@@ -42,11 +42,23 @@ namespace Monitoring.ViewModels
             set { _SelectedResult = value; OnPropertyChanged(nameof(SelectedResult)); }
         }
 
-
         public AdminWindowVM()
         {
             ResultsCollection = DBController.GetResults();
             UsersCollection = DBController.GetUsers();
+        }
+
+        private RelayCommand _OpenViewResultWindow;
+        public RelayCommand OpenViewResultWindow
+        {
+            get => _OpenViewResultWindow ?? (_OpenViewResultWindow = new RelayCommand(obj =>
+            {
+                Window ThisWindow = obj as Window;
+                ViewResultWindow InstanceViewResultWindow = new ViewResultWindow();
+                InstanceViewResultWindow.DataContext = new ViewResultWindowVM(SelectedResult, "Админ");
+                InstanceViewResultWindow.Show();
+                ThisWindow.Close();
+            }));
         }
 
         private RelayCommand _Back;

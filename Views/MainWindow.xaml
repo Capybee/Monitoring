@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Monitoring.Views"
         xmlns:data="clr-namespace:Monitoring.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Title="MainWindow" Height="650" Width="1000">
+        Title="MainWindow" Height="650" Width="1200">
     <Window.DataContext>
         <data:MainWindowVM/>
     </Window.DataContext>
@@ -31,29 +32,20 @@
             <Button Style="{DynamicResource ButtonStyle}" Grid.Column="3" Margin="1" Command="{Binding Close}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Content="X" Height="40" Width="40" FontFamily="{DynamicResource Base}" FontSize="{DynamicResource H1}" FontWeight="Bold"/>
         </Grid>
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="700"/>
-                <ColumnDefinition Width="300"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <DataGrid Grid.Row="1" Style="{DynamicResource DataGridStyle}" Margin="0,0,5,0">
-
+            <Grid>
+                <DataGrid Grid.Row="1" Style="{DynamicResource DataGridStyle}" Margin="0,0,5,0" ItemsSource="{Binding ResultsCollection}" SelectedItem="{Binding SelectedResult}" AutoGenerateColumns="False" CanUserAddRows="False" FontFamily="{DynamicResource Base}" FontSize="{DynamicResource H1}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Width="50" Binding="{Binding Path=Id}"/>
+                        <DataGridTextColumn Header="Заголовок" Width="*" Binding="{Binding Path=Title}"/>
+                    </DataGrid.Columns>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding OpenViewResultWindow}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </DataGrid>
             </Grid>
-            <Border BorderBrush="{DynamicResource PressedBtnBackground}" BorderThickness="2" Grid.Column="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition />
-                        <RowDefinition Height="50"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Style="{DynamicResource TextBlockStyle}" Text="Выбраные года" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <DataGrid Grid.Row="1" Style="{DynamicResource DataGridStyle}">
-                        
-                    </DataGrid>
-                    <Button Grid.Row="2" Style="{DynamicResource AdditionalButtonStyle}" Content="Составить отчет" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="210" Height="40"/>
-                </Grid>
-            </Border>
+            
         </Grid>
     </Grid>
 </Window>

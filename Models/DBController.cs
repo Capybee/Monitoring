@@ -50,42 +50,6 @@ namespace Monitoring.Models
                 }
             }
         }
-
-        public static ObservableCollection<Reports> GetReports() 
-        {
-            using (SqlConnection Connection = new SqlConnection(ConnectionString))
-            {
-                Connection.Open();
-
-                string Request = "SELECT * FROM Reports";
-
-                SqlCommand Command = new SqlCommand(Request, Connection);
-
-                using (SqlDataReader Reader = Command.ExecuteReader())
-                {
-                    if (Reader.HasRows)
-                    {
-                        ObservableCollection<Reports> Result = new ObservableCollection<Reports>();
-
-                        while (Reader.Read())
-                        {
-                            Reports Report = new Reports();
-
-                            Report.Id = Reader.GetInt32(0);
-                            Report.Title = Reader.GetString(1);
-                            Report.Content = Reader.GetString(2);
-                            Report.WhoRequestedIt = Reader.GetInt32(3);
-
-                            Result.Add(Report);
-                        }
-                        return Result;
-                    }
-                    else
-                        throw new Exception("Данные не найдены!");
-                }
-            }
-        }
-
         public static ObservableCollection<Results> GetResults() 
         {
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
@@ -156,30 +120,6 @@ namespace Monitoring.Models
             }
         }
 
-        public static bool AddReport(string Title, string Content, int WhoRequestIt)
-        {
-            using(SqlConnection Connection = new SqlConnection(ConnectionString)) 
-            {
-                Connection.Open();
-
-                string Request = "INSERT INTO Reports (title, content, who_request_it) VALUES (@title, @content, @who_request_it)";
-
-                SqlParameter TitleParam = new SqlParameter("@title", Title);
-                SqlParameter ContentParam = new SqlParameter("@content", Content);
-                SqlParameter WhoParam = new SqlParameter("@who_request_it", WhoRequestIt);
-
-                SqlCommand Command = new SqlCommand(Request, Connection);
-
-                Command.Parameters.Add(TitleParam);
-                Command.Parameters.Add(ContentParam);
-                Command.Parameters.Add(WhoParam);
-
-                Command.ExecuteNonQuery();
-
-                return true;
-            }
-        }
-
         public static bool AddResult( int Id,string Title, string Description, bool Result, int WhoContributed, int WhoChangedIt, DateTime Date)
         {
             using(SqlConnection Connection = new SqlConnection(ConnectionString))
@@ -241,26 +181,6 @@ namespace Monitoring.Models
                 Connection.Open();
 
                 string Request = "DELETE FROM Results WHERE id = @id";
-
-                SqlParameter IdParam = new SqlParameter("@id", Id);
-
-                SqlCommand Command = new SqlCommand(Request, Connection);
-
-                Command.Parameters.Add(IdParam);
-
-                Command.ExecuteNonQuery();
-
-                return true;
-            }
-        }
-
-        public static bool DeleteReport(int Id)
-        {
-            using (SqlConnection Connection = new SqlConnection(ConnectionString))
-            {
-                Connection.Open();
-
-                string Request = "DELETE FROM Reports WHERE id = @id";
 
                 SqlParameter IdParam = new SqlParameter("@id", Id);
 

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Monitoring.Views"
         xmlns:data="clr-namespace:Monitoring.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -58,23 +59,11 @@
                             <DataGridTextColumn Header="Id" Width="50" Binding="{Binding Path=Id}"/>
                             <DataGridTextColumn Header="Заголовок" Width="*" Binding="{Binding Path=Title}"/>
                         </DataGrid.Columns>
-                        <!--<DataGrid.RowDetailsTemplate>
-                            <DataTemplate>
-                                <ScrollViewer VerticalScrollBarVisibility="Visible">
-                                    <StackPanel MaxWidth="650" >
-                                        <TextBlock Text="Заголовок" Style="{DynamicResource TextBlockStyle}" Margin="5" FontSize="{DynamicResource Small}"/>
-                                        <TextBlock Text="{Binding Path=Title}" Style="{DynamicResource TextBlockStyle}" Margin="10" FontSize="{DynamicResource Small}"/>
-                                        <TextBlock Text="Описание" Style="{DynamicResource TextBlockStyle}" Margin="5" FontSize="{DynamicResource Small}"/>
-                                        <TextBlock Text="{Binding Path=Description}" Style="{DynamicResource TextBlockStyle}" Margin="5" TextWrapping="Wrap" FontSize="{DynamicResource Small}"/>
-                                        <RadioButton GroupName="Role" Style="{DynamicResource RadioButtonStyle1}" IsChecked="{Binding Path=Result}" Content="Сертификат выдан" FontFamily="{DynamicResource Base}" FontSize="{DynamicResource H1}" Margin="30,10,10,10"/>
-                                        <TextBlock Text="Внес запись" Style="{DynamicResource TextBlockStyle}" Margin="5" FontSize="{DynamicResource Small}"/>
-                                        <TextBlock Text="{Binding Path=WhoContributed}" Style="{DynamicResource TextBlockStyle}" Margin="5" FontSize="{DynamicResource Small}"/>
-                                        <TextBlock Text="Внес последние изменение" Style="{DynamicResource TextBlockStyle}" Margin="5" FontSize="{DynamicResource Small}"/>
-                                        <TextBlock Text="{Binding Path=WhoChangedIt}" Style="{DynamicResource TextBlockStyle}" Margin="5" FontSize="{DynamicResource Small}"/>
-                                    </StackPanel>
-                                </ScrollViewer>
-                            </DataTemplate>
-                        </DataGrid.RowDetailsTemplate>-->
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding OpenViewResultWindow}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </DataGrid>
                 </Grid>
             </Border>
